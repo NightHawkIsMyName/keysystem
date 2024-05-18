@@ -92,7 +92,7 @@ DeleteButton.AutoButtonColor = false -- Desabilita a mudança automática de cor
 
 local player = game.Players.LocalPlayer
 local correctUsername = player.Name
-local correctKey = tostring(player.UserId)
+local correctKey = "J7xK9Y2" -- Aqui definimos a chave de acesso
 
 -- Lista de usuários banidos
 local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
@@ -147,7 +147,7 @@ TextButton.MouseButton1Click:Connect(function()
         return
     end
 
-    -- Verifique se o usuário inseriu as credenciais corretas
+-- Verifique se o usuário inseriu as credenciais corretas
     if enteredKey == correctKey then
         FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         FeedbackLabel.Text = "Logged in successfully!"
