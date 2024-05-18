@@ -75,7 +75,7 @@ FeedbackLabel.TextSize = 18
 
 DeleteButton.Name = "DeleteButton"
 DeleteButton.Parent = Password
-DeleteButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+DeleteButton.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
 DeleteButton.BorderSizePixel = 0
 DeleteButton.Position = UDim2.new(0, 5, 0, 5)
 DeleteButton.Size = UDim2.new(0, 20, 0, 20)
@@ -97,27 +97,65 @@ local correctKey = tostring(player.UserId)
 -- Lista de usuários banidos
 local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
 
+-- Lista de usuários que não precisam passar pelo sistema de chave
+local exemptedUsers = {"User1", "User2"} -- Substitua pelos nomes de usuário que estão isentos do sistema de chave
+
+-- Função para verificar se um usuário está na lista de banidos
+local function isUserBanned(username)
+    for _, bannedUser in ipairs(bannedUsers) do
+        if username == bannedUser then
+            return true
+        end
+    end
+    return false
+end
+
+-- Função para verificar se um usuário está na lista de isentos
+local function isUserExempted(username)
+    for _, exemptedUser in ipairs(exemptedUsers) do
+        if username == exemptedUser then
+            return true
+        end
+    end
+    return false
+end
+
 TextButton.MouseButton1Click:Connect(function()
     local enteredUsername = User.Text
     local enteredKey = KeyField.Text
 
-    -- Verifique se o usuário está na lista de banidos
-    for _, bannedUser in ipairs(bannedUsers) do
-        if enteredUsername == bannedUser then
-            FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-            FeedbackLabel.Text = "You are banned."
-            return
-        end
+    -- Verifique se o jogador está tentando acessar com um nome diferente do seu
+    if enteredUsername ~= correctUsername then
+        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        FeedbackLabel.Text = "Invalid username."
+        return
     end
 
-    if enteredUsername == correctUsername and enteredKey == correctKey then
+    -- Verifique se o usuário está na lista de banidos
+    if isUserBanned(enteredUsername) then
+        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        FeedbackLabel.Text = "You are banned from the key system"
+        return
+    end
+
+    -- Verifique se o usuário está na lista de isentos
+    if isUserExempted(enteredUsername) then
+        FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        FeedbackLabel.Text = "Logged in successfully!"
+        wait(1)
+        Password.Visible = false
+        return
+    end
+
+    -- Verifique se o usuário inseriu as credenciais corretas
+    if enteredKey == correctKey then
         FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         FeedbackLabel.Text = "Logged in successfully!"
         wait(1)
         Password.Visible = false
     else
         FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "Incorrect username or key."
+        FeedbackLabel.Text = "Incorrect key."
     end
 end)
 
