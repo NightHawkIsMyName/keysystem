@@ -1,0 +1,126 @@
+-- Instances:
+local PrisonLifeFunctions = Instance.new("ScreenGui")
+local Password = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local User = Instance.new("TextBox")
+local KeyField = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+local FeedbackLabel = Instance.new("TextLabel")
+local DeleteButton = Instance.new("TextButton")
+
+-- Properties:
+PrisonLifeFunctions.Name = "PrisonLifeFunctions"
+PrisonLifeFunctions.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+PrisonLifeFunctions.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Password.Name = "Password"
+Password.Parent = PrisonLifeFunctions
+Password.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+Password.BorderSizePixel = 0
+Password.Position = UDim2.new(0.5, -150, 0.5, -100)
+Password.Size = UDim2.new(0, 300, 0, 200)
+
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = Password
+
+User.Name = "User"
+User.Parent = Password
+User.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
+User.BorderSizePixel = 0
+User.Position = UDim2.new(0.1, 0, 0.2, 0)
+User.Size = UDim2.new(0.8, 0, 0.1, 0)
+User.Font = Enum.Font.SourceSans
+User.PlaceholderColor3 = Color3.fromRGB(158, 158, 158)
+User.PlaceholderText = "Username"
+User.Text = ""
+User.TextColor3 = Color3.fromRGB(255, 255, 255)
+User.TextSize = 18
+
+KeyField.Name = "KeyField"
+KeyField.Parent = Password
+KeyField.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
+KeyField.BorderSizePixel = 0
+KeyField.Position = UDim2.new(0.1, 0, 0.4, 0)
+KeyField.Size = UDim2.new(0.8, 0, 0.1, 0)
+KeyField.Font = Enum.Font.SourceSans
+KeyField.PlaceholderColor3 = Color3.fromRGB(158, 158, 158)
+KeyField.PlaceholderText = "Key"
+KeyField.Text = ""
+KeyField.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyField.TextSize = 18
+KeyField.ClearTextOnFocus = false
+KeyField.TextWrapped = false
+KeyField.TextXAlignment = Enum.TextXAlignment.Left
+KeyField.TextYAlignment = Enum.TextYAlignment.Center
+KeyField.TextTruncate = Enum.TextTruncate.AtEnd
+
+TextButton.Parent = Password
+TextButton.BackgroundColor3 = Color3.fromRGB(29, 151, 108)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+TextButton.Size = UDim2.new(0.8, 0, 0.1, 0)
+TextButton.Font = Enum.Font.SourceSansBold
+TextButton.Text = "Login"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 20
+
+FeedbackLabel.Parent = Password
+FeedbackLabel.BackgroundTransparency = 1
+FeedbackLabel.Position = UDim2.new(0.1, 0, 0.75, 0)
+FeedbackLabel.Size = UDim2.new(0.8, 0, 0.1, 0)
+FeedbackLabel.Font = Enum.Font.SourceSans
+FeedbackLabel.Text = ""
+FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+FeedbackLabel.TextSize = 18
+
+DeleteButton.Name = "DeleteButton"
+DeleteButton.Parent = Password
+DeleteButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+DeleteButton.BorderSizePixel = 0
+DeleteButton.Position = UDim2.new(0, 5, 0, 5)
+DeleteButton.Size = UDim2.new(0, 20, 0, 20)
+DeleteButton.Font = Enum.Font.SourceSans
+DeleteButton.Text = "X"
+DeleteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+DeleteButton.TextSize = 20
+
+-- Personalização adicional:
+DeleteButton.TextScaled = true -- Tamanho do texto se ajusta automaticamente
+DeleteButton.AutoButtonColor = false -- Desabilita a mudança automática de cor ao passar o mouse
+
+-- Script:
+
+local player = game.Players.LocalPlayer
+local correctUsername = player.Name
+local correctKey = tostring(player.UserId)
+
+-- Lista de usuários banidos
+local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
+
+TextButton.MouseButton1Click:Connect(function()
+    local enteredUsername = User.Text
+    local enteredKey = KeyField.Text
+
+    -- Verifique se o usuário está na lista de banidos
+    for _, bannedUser in ipairs(bannedUsers) do
+        if enteredUsername == bannedUser then
+            FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+            FeedbackLabel.Text = "You are banned."
+            return
+        end
+    end
+
+    if enteredUsername == correctUsername and enteredKey == correctKey then
+        FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        FeedbackLabel.Text = "Logged in successfully!"
+        wait(1)
+        Password.Visible = false
+    else
+        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        FeedbackLabel.Text = "Incorrect username or key."
+    end
+end)
+
+DeleteButton.MouseButton1Click:Connect(function()
+    PrisonLifeFunctions:Destroy()
+end)
