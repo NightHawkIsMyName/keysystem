@@ -92,7 +92,7 @@ DeleteButton.AutoButtonColor = false -- Desabilita a mudança automática de cor
 
 local player = game.Players.LocalPlayer
 local correctUsername = player.Name
-local correctKey = "J7xK9Y2" -- Aqui definimos a chave de acesso
+local correctKey = "1" -- Aqui definimos a chave de acesso
 
 -- Lista de usuários banidos
 local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
@@ -147,12 +147,16 @@ TextButton.MouseButton1Click:Connect(function()
         return
     end
 
--- Verifique se o usuário inseriu as credenciais corretas
+    -- Verifique se o usuário inseriu as credenciais corretas
     if enteredKey == correctKey then
         FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         FeedbackLabel.Text = "Logged in successfully!"
         wait(1)
         Password.Visible = false
+
+        -- Execute o loadstring após o login bem-sucedido
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/NightHawkIsMyName/VENOM-Hub/main/Venom%20Hub?token=GHSAT0AAAAAACSPFENNEFDTIITQIFERMN3AZSKR2GQ"))()
+
     else
         FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
         FeedbackLabel.Text = "Incorrect key."
