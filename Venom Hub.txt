@@ -1,5 +1,5 @@
--- Gui to Lua
--- Version: 3.2
+-- Minimalist GUI Script
+-- Version: 1.0
 
 -- Instances:
 
@@ -188,8 +188,7 @@ ImageLabel.Parent = Footer
 ImageLabel.BackgroundTransparency = 1.000
 ImageLabel.Position = UDim2.new(0.5, -25, 0.5, -25)
 ImageLabel.Size = UDim2.new(0, 50, 0, 50)
-ImageLabel.Image = "rbxassetid://518380518"
-ImageLabel.ScaleType = Enum.ScaleType.Fit
+ImageLabel.Image = "rbxassetid://9983639978"
 
 UICorner_11.CornerRadius = UDim.new(1, 0)
 UICorner_11.Parent = ImageLabel
@@ -198,16 +197,17 @@ TextLabel_2.Parent = Footer
 TextLabel_2.BackgroundTransparency = 1.000
 TextLabel_2.Position = UDim2.new(0, 0, 0, 0)
 TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
-TextLabel_2.Font = Enum.Font.Gotham
+TextLabel_2.Font = Enum.Font.GothamBold
 TextLabel_2.Text = "VENOM Hub"
 TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.TextSize = 14.000
+TextLabel_2.TextSize = 18.000
+TextLabel_2.TextYAlignment = Enum.TextYAlignment.Bottom
 
 LocalPlayerContent.Name = "LocalPlayerContent"
 LocalPlayerContent.Parent = MainFrame
 LocalPlayerContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-LocalPlayerContent.Position = UDim2.new(0, 150, 0, 40)
-LocalPlayerContent.Size = UDim2.new(1, -150, 1, -40)
+LocalPlayerContent.Position = UDim2.new(0, 160, 0, 50)
+LocalPlayerContent.Size = UDim2.new(1, -170, 1, -60)
 LocalPlayerContent.Visible = false
 
 UICorner_12.CornerRadius = UDim.new(0, 12)
@@ -224,8 +224,8 @@ TextLabel_3.TextSize = 20.000
 GameContent.Name = "GameContent"
 GameContent.Parent = MainFrame
 GameContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-GameContent.Position = UDim2.new(0, 150, 0, 40)
-GameContent.Size = UDim2.new(1, -150, 1, -40)
+GameContent.Position = UDim2.new(0, 160, 0, 50)
+GameContent.Size = UDim2.new(1, -170, 1, -60)
 GameContent.Visible = false
 
 UICorner_13.CornerRadius = UDim.new(0, 12)
@@ -242,16 +242,16 @@ TextLabel_4.TextSize = 20.000
 ScriptsContent.Name = "ScriptsContent"
 ScriptsContent.Parent = MainFrame
 ScriptsContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-ScriptsContent.Position = UDim2.new(0, 150, 0, 40)
-ScriptsContent.Size = UDim2.new(1, -150, 1, -40)
-ScriptsContent.Visible = true
+ScriptsContent.Position = UDim2.new(0, 160, 0, 50)
+ScriptsContent.Size = UDim2.new(1, -170, 1, -60)
+ScriptsContent.Visible = false
 
 UICorner_14.CornerRadius = UDim.new(0, 12)
 UICorner_14.Parent = ScriptsContent
 
 TextLabel_5.Parent = ScriptsContent
 TextLabel_5.BackgroundTransparency = 1.000
-TextLabel_5.Size = UDim2.new(1, 0, 0, 40)
+TextLabel_5.Size = UDim2.new(1, 0, 1, 0)
 TextLabel_5.Font = Enum.Font.Gotham
 TextLabel_5.Text = "Scripts Content"
 TextLabel_5.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -260,8 +260,8 @@ TextLabel_5.TextSize = 20.000
 ExploitContent.Name = "ExploitContent"
 ExploitContent.Parent = MainFrame
 ExploitContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-ExploitContent.Position = UDim2.new(0, 150, 0, 40)
-ExploitContent.Size = UDim2.new(1, -150, 1, -40)
+ExploitContent.Position = UDim2.new(0, 160, 0, 50)
+ExploitContent.Size = UDim2.new(1, -170, 1, -60)
 ExploitContent.Visible = false
 
 UICorner_15.CornerRadius = UDim.new(0, 12)
@@ -269,24 +269,23 @@ UICorner_15.Parent = ExploitContent
 
 TextLabel_6.Parent = ExploitContent
 TextLabel_6.BackgroundTransparency = 1.000
-TextLabel_6.Size = UDim2.new(1, 0, 1, 0)
+TextLabel_6.Size = UDim2.new(1, 0, 0.2, 0)
 TextLabel_6.Font = Enum.Font.Gotham
 TextLabel_6.Text = "Exploit Content"
 TextLabel_6.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel_6.TextSize = 20.000
 
 ScriptHolder.Name = "ScriptHolder"
-ScriptHolder.Parent = ScriptsContent
+ScriptHolder.Parent = ExploitContent
 ScriptHolder.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-ScriptHolder.Position = UDim2.new(0, 20, 0, 60)
-ScriptHolder.Size = UDim2.new(1, -40, 1, -120)
+ScriptHolder.Position = UDim2.new(0.05, 0, 0.25, 0)
+ScriptHolder.Size = UDim2.new(0.9, 0, 0.6, 0)
 ScriptHolder.ClearTextOnFocus = false
-ScriptHolder.Font = Enum.Font.Gotham
+ScriptHolder.Font = Enum.Font.Code
 ScriptHolder.MultiLine = true
-ScriptHolder.PlaceholderText = "Enter Script Here..."
-ScriptHolder.Text = ""
+ScriptHolder.Text = "-- Paste your script here"
 ScriptHolder.TextColor3 = Color3.fromRGB(255, 255, 255)
-ScriptHolder.TextSize = 16.000
+ScriptHolder.TextSize = 18.000
 ScriptHolder.TextXAlignment = Enum.TextXAlignment.Left
 ScriptHolder.TextYAlignment = Enum.TextYAlignment.Top
 
@@ -294,10 +293,10 @@ UICorner_16.CornerRadius = UDim.new(0, 12)
 UICorner_16.Parent = ScriptHolder
 
 Clear.Name = "Clear"
-Clear.Parent = ScriptsContent
-Clear.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
-Clear.Position = UDim2.new(0, 20, 1, -50)
-Clear.Size = UDim2.new(0, 150, 0, 40)
+Clear.Parent = ExploitContent
+Clear.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Clear.Position = UDim2.new(0.05, 0, 0.88, 0)
+Clear.Size = UDim2.new(0.425, 0, 0.1, 0)
 Clear.Font = Enum.Font.GothamBold
 Clear.Text = "Clear"
 Clear.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -307,10 +306,10 @@ UICorner_17.CornerRadius = UDim.new(0, 12)
 UICorner_17.Parent = Clear
 
 Execute.Name = "Execute"
-Execute.Parent = ScriptsContent
-Execute.BackgroundColor3 = Color3.fromRGB(60, 255, 60)
-Execute.Position = UDim2.new(1, -170, 1, -50)
-Execute.Size = UDim2.new(0, 150, 0, 40)
+Execute.Parent = ExploitContent
+Execute.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Execute.Position = UDim2.new(0.525, 0, 0.88, 0)
+Execute.Size = UDim2.new(0.425, 0, 0.1, 0)
 Execute.Font = Enum.Font.GothamBold
 Execute.Text = "Execute"
 Execute.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -322,9 +321,9 @@ UICorner_18.Parent = Execute
 InfoContent.Name = "InfoContent"
 InfoContent.Parent = MainFrame
 InfoContent.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-InfoContent.Position = UDim2.new(0, 150, 0, 40)
-InfoContent.Size = UDim2.new(1, -150, 1, -40)
-InfoContent.Visible = false
+InfoContent.Position = UDim2.new(0, 160, 0, 50)
+InfoContent.Size = UDim2.new(1, -170, 1, -60)
+InfoContent.Visible = true
 
 UICorner_19.CornerRadius = UDim.new(0, 12)
 UICorner_19.Parent = InfoContent
@@ -333,38 +332,34 @@ TextLabel_7.Parent = InfoContent
 TextLabel_7.BackgroundTransparency = 1.000
 TextLabel_7.Size = UDim2.new(1, 0, 1, 0)
 TextLabel_7.Font = Enum.Font.Gotham
-TextLabel_7.Text = "Info Content"
+TextLabel_7.Text = "Welcome to VENOM Hub!"
 TextLabel_7.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel_7.TextSize = 20.000
 
--- Script:
+-- Functionality:
 
-local pages = {
-    LocalPlayerContent,
-    GameContent,
-    ScriptsContent,
-    ExploitContent,
-    InfoContent
+local sections = {
+    LocalPlayerButton = LocalPlayerContent,
+    GameButton = GameContent,
+    ScriptsButton = ScriptsContent,
+    ExploitButton = ExploitContent,
+    InfoButton = InfoContent
 }
 
-local buttons = {
-    LocalPlayerButton,
-    GameButton,
-    ScriptsButton,
-    ExploitButton,
-    InfoButton
-}
-
-local function showPage(pageIndex)
-    for i, page in ipairs(pages) do
-        page.Visible = (i == pageIndex)
+local function showSection(sectionName)
+    for _, section in pairs(sections) do
+        section.Visible = false
     end
+    sections[sectionName].Visible = true
 end
 
-for i, button in ipairs(buttons) do
-    button.MouseButton1Click:Connect(function()
-        showPage(i)
-    end)
+for buttonName, _ in pairs(sections) do
+    local button = Sidebar:FindFirstChild(buttonName)
+    if button then
+        button.MouseButton1Click:Connect(function()
+            showSection(buttonName)
+        end)
+    end
 end
 
 Exit.MouseButton1Click:Connect(function()
@@ -376,29 +371,6 @@ Clear.MouseButton1Click:Connect(function()
 end)
 
 Execute.MouseButton1Click:Connect(function()
-    local source = ScriptHolder.Text
-    if #source > 0 then
-        local success, err = pcall(function()
-            loadstring(source)()
-        end)
-        if not success then
-            warn("Error executing script: " .. err)
-        end
-    end
+    local script = ScriptHolder.Text
+    loadstring(script)()
 end)
-
--- Communication between players using the script:
-
-local player = game.Players.LocalPlayer
-local playersWithScript = {}
-
-local function checkForOtherPlayers()
-    for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
-        if otherPlayer ~= player then
-            local hasScript = otherPlayer:FindFirstChild("OrionScriptHub")
-            if hasScript then
-                table.insert(playersWithScript, otherPlayer.Name)
-            end
-        end
-    end
-end
