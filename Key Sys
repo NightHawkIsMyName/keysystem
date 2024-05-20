@@ -155,7 +155,7 @@ TextButton.MouseButton1Click:Connect(function()
         Password.Visible = false
 
         -- Execute o loadstring após o login bem-sucedido
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/NightHawkIsMyName/VENOM-Hub/main/Venom%20Hub?token=GHSAT0AAAAAACSPFENNEFDTIITQIFERMN3AZSKR2GQ"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/NightHawkIsMyName/VENOM-Hub/main/Venom%20Hub?"))()
 
     else
         FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
