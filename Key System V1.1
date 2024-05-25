@@ -1,4 +1,7 @@
--- Instances:
+--[                                Key System Loader                                ]--
+
+
+-- KEY SYSTEM Instances:
 local PrisonLifeFunctions = Instance.new("ScreenGui")
 local Password = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
@@ -15,7 +18,7 @@ PrisonLifeFunctions.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Password.Name = "Password"
 Password.Parent = PrisonLifeFunctions
-Password.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+Password.BackgroundColor3 = Color3.fromRGB(34, 34, 51)  -- Background roxo escuro
 Password.BorderSizePixel = 0
 Password.Position = UDim2.new(0.5, -150, 0.5, -100)
 Password.Size = UDim2.new(0, 300, 0, 200)
@@ -25,20 +28,20 @@ UICorner.Parent = Password
 
 User.Name = "User"
 User.Parent = Password
-User.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
+User.BackgroundColor3 = Color3.fromRGB(45, 45, 70)  -- Caixa de texto roxa mais clara
 User.BorderSizePixel = 0
 User.Position = UDim2.new(0.1, 0, 0.2, 0)
 User.Size = UDim2.new(0.8, 0, 0.1, 0)
 User.Font = Enum.Font.SourceSans
 User.PlaceholderColor3 = Color3.fromRGB(158, 158, 158)
-User.PlaceholderText = "Username"
+User.PlaceholderText = "Username or DisplayName"
 User.Text = ""
 User.TextColor3 = Color3.fromRGB(255, 255, 255)
 User.TextSize = 18
 
 KeyField.Name = "KeyField"
 KeyField.Parent = Password
-KeyField.BackgroundColor3 = Color3.fromRGB(51, 51, 51)
+KeyField.BackgroundColor3 = Color3.fromRGB(45, 45, 70)  -- Caixa de texto roxa mais clara
 KeyField.BorderSizePixel = 0
 KeyField.Position = UDim2.new(0.1, 0, 0.4, 0)
 KeyField.Size = UDim2.new(0.8, 0, 0.1, 0)
@@ -55,7 +58,7 @@ KeyField.TextYAlignment = Enum.TextYAlignment.Center
 KeyField.TextTruncate = Enum.TextTruncate.AtEnd
 
 TextButton.Parent = Password
-TextButton.BackgroundColor3 = Color3.fromRGB(29, 151, 108)
+TextButton.BackgroundColor3 = Color3.fromRGB(60, 0, 80)  -- Botão de login roxo vibrante
 TextButton.BorderSizePixel = 0
 TextButton.Position = UDim2.new(0.1, 0, 0.6, 0)
 TextButton.Size = UDim2.new(0.8, 0, 0.1, 0)
@@ -67,15 +70,16 @@ TextButton.TextSize = 20
 FeedbackLabel.Parent = Password
 FeedbackLabel.BackgroundTransparency = 1
 FeedbackLabel.Position = UDim2.new(0.1, 0, 0.75, 0)
-FeedbackLabel.Size = UDim2.new(0.8, 0, 0.1, 0)
+FeedbackLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
 FeedbackLabel.Font = Enum.Font.SourceSans
 FeedbackLabel.Text = ""
 FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
 FeedbackLabel.TextSize = 18
+FeedbackLabel.TextWrapped = true
 
 DeleteButton.Name = "DeleteButton"
 DeleteButton.Parent = Password
-DeleteButton.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+DeleteButton.BackgroundColor3 = Color3.fromRGB(34, 34, 51)  -- Botão de delete roxo escuro
 DeleteButton.BorderSizePixel = 0
 DeleteButton.Position = UDim2.new(0, 5, 0, 5)
 DeleteButton.Size = UDim2.new(0, 20, 0, 20)
@@ -92,7 +96,9 @@ DeleteButton.AutoButtonColor = false -- Desabilita a mudança automática de cor
 
 local player = game.Players.LocalPlayer
 local correctUsername = player.Name
-local correctKey = "1" -- Aqui definimos a chave de acesso
+local correctDisplayName = player.DisplayName
+local correctKeys = {"NightHawk Was Here", "Nighthawk", "ID:123"} -- Lista de chaves de acesso
+local groupId = 33761617 -- ID do grupo Roblox
 
 -- Lista de usuários banidos
 local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
@@ -120,14 +126,19 @@ local function isUserExempted(username)
     return false
 end
 
+-- Função para verificar se um jogador é membro do grupo
+local function isPlayerInGroup(player, groupId)
+    return player:IsInGroup(groupId)
+end
+
 TextButton.MouseButton1Click:Connect(function()
     local enteredUsername = User.Text
     local enteredKey = KeyField.Text
 
     -- Verifique se o jogador está tentando acessar com um nome diferente do seu
-    if enteredUsername ~= correctUsername then
+    if enteredUsername ~= correctUsername and enteredUsername ~= correctDisplayName then
         FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "Invalid username."
+        FeedbackLabel.Text = "Invalid username or display name."
         return
     end
 
@@ -147,8 +158,23 @@ TextButton.MouseButton1Click:Connect(function()
         return
     end
 
-    -- Verifique se o usuário inseriu as credenciais corretas
-    if enteredKey == correctKey then
+    -- Verifique se o jogador é membro do grupo
+    if not isPlayerInGroup(player, groupId) then
+        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        FeedbackLabel.Text = "Join our group to log in: https://www.roblox.com/groups/33761617/NebulaDreams-Studio#!/about"
+        return
+    end
+
+    -- Verifique se o usuário inseriu uma das chaves corretas
+    local keyValid = false
+    for _, key in ipairs(correctKeys) do
+        if enteredKey == key then
+            keyValid = true
+            break
+        end
+    end
+
+    if keyValid then
         FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
         FeedbackLabel.Text = "Logged in successfully!"
         wait(1)
