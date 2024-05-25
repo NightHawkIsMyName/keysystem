@@ -1,0 +1,80 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+-- [ GUI Creation ] --
+local Window = Library.CreateLib("Vape.wtf | Beta", "GrapeTheme")
+
+-- [ Player Tab ] --
+local playerTab = Window:NewTab("Player")
+local SectionPlayer = playerTab:NewSection("Player Settings")
+
+SectionPlayer:NewSlider("WalkSpeed", "Adjust your walking speed", 500, 16, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+SectionPlayer:NewSlider("JumpPower", "Adjust your jump power", 500, 50, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+-- [ Game Tab ] --
+local gameTab = Window:NewTab("Game")
+local SectionGame = gameTab:NewSection("World Manipulation")
+
+SectionGame:NewButton("Destroy Doors", "Destroy all doors in the game", function()
+    for _, obj in ipairs(game.Workspace:GetDescendants()) do
+        if obj.Name == "Doors" then
+            obj:Destroy()
+        end
+    end
+    print("Destroyed all doors.")
+end)
+
+SectionGame:NewButton("Destroy Walls", "Destroy all walls in the game", function()
+    for _, obj in ipairs(game.Workspace:GetDescendants()) do
+        if string.find(obj.Name:lower(), "wall") then
+            obj:Destroy()
+        end
+    end
+    print("Destroyed all walls.")
+end)
+
+-- [ Teleports Tab ] --
+local TeleportTab = Window:NewTab("Teleports")
+local SectionTeleport = TeleportTab:NewSection("Quick Teleports")
+
+local teleportDestinations = {
+    {"Criminal Base", Vector3.new(-943, 94, 2057)},
+    {"Yard", Vector3.new(786, 98, 2470)},
+    {"Armory", Vector3.new(836, 100, 2262)},
+    {"Nexus", Vector3.new(881, 100, 2387)},
+    {"Tower", Vector3.new(824, 130, 2588)}
+}
+
+for _, destination in ipairs(teleportDestinations) do
+    SectionTeleport:NewButton(destination[1], "Teleport to " .. destination[1], function()
+        local function teleportToDestination()
+            if game.Players.LocalPlayer and game.Players.LocalPlayer.Character then
+                game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(destination[2]))
+                print("Teleported to " .. destination[1] .. "!")
+            else
+                warn("Cannot teleport: Local player or character not found.")
+            end
+        end
+        teleportToDestination()
+    end)
+end
+
+-- [ Teams Tab ] --
+local TeamsTab = Window:NewTab("Teams")
+local SectionTeams = TeamsTab:NewSection("Team Manipulation")
+
+-- [ Scripts Tab ] --
+local scriptsTab = Window:NewTab("Scripts")
+local SectionScripts = scriptsTab:NewSection("Custom Scripts")
+
+-- [ Exploit Tab ] --
+local exploitTab = Window:NewTab("Exploit")
+local SectionExploit = exploitTab:NewSection("Exploit Functions")
+
+-- [ Info Tab ] --
+local infoTab = Window:NewTab("Info")
+local SectionInfo = infoTab:NewSection("Information")
