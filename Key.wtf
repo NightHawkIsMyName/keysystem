@@ -1,194 +1,292 @@
---[                                Key System Loader                                ]--
+-- Instances
+local gui = Instance.new("ScreenGui")
+local background = Instance.new("Frame")
+local uiCorner = Instance.new("UICorner")
+local top = Instance.new("Frame")
+local feet = Instance.new("Frame")
+local uiCorner2 = Instance.new("UICorner")
+local exitButton = Instance.new("TextButton")
+local logoText = Instance.new("TextLabel")
+local logo = Instance.new("ImageButton")
+local uiCorner3 = Instance.new("UICorner")
+local keyBackground = Instance.new("Frame")
+local uiCorner4 = Instance.new("UICorner")
+local keyBox = Instance.new("TextBox")
+local uiCorner5 = Instance.new("UICorner")
+local getKeyButton = Instance.new("TextButton")
+local uiCorner6 = Instance.new("UICorner")
+local applyButton = Instance.new("TextButton")
+local uiCorner7 = Instance.new("UICorner")
+local feedbackLabel = Instance.new("TextLabel")
 
+-- Properties
+gui.Name = "Gui"
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- KEY SYSTEM Instances:
-local PrisonLifeFunctions = Instance.new("ScreenGui")
-local Password = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local User = Instance.new("TextBox")
-local KeyField = Instance.new("TextBox")
-local TextButton = Instance.new("TextButton")
-local FeedbackLabel = Instance.new("TextLabel")
-local DeleteButton = Instance.new("TextButton")
+background.Name = "Background"
+background.Parent = gui
+background.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
+background.BorderSizePixel = 0
+background.Position = UDim2.new(0.3, 0, 0.23, 0)
+background.Size = UDim2.new(0, 366, 0, 315)
 
--- Properties:
-PrisonLifeFunctions.Name = "PrisonLifeFunctions"
-PrisonLifeFunctions.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-PrisonLifeFunctions.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+uiCorner.CornerRadius = UDim.new(0, 15)
+uiCorner.Parent = background
 
-Password.Name = "Password"
-Password.Parent = PrisonLifeFunctions
-Password.BackgroundColor3 = Color3.fromRGB(34, 34, 51)  -- Background roxo escuro
-Password.BorderSizePixel = 0
-Password.Position = UDim2.new(0.5, -150, 0.5, -100)
-Password.Size = UDim2.new(0, 300, 0, 200)
+top.Name = "Top"
+top.Parent = background
+top.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
+top.BorderSizePixel = 0
+top.Size = UDim2.new(0, 366, 0, 54)
 
-UICorner.CornerRadius = UDim.new(0, 12)
-UICorner.Parent = Password
+feet.Name = "Feet"
+feet.Parent = top
+feet.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
+feet.BorderSizePixel = 0
+feet.Position = UDim2.new(0, 0, 0.765, 0)
+feet.Size = UDim2.new(0, 366, 0, 32)
 
-User.Name = "User"
-User.Parent = Password
-User.BackgroundColor3 = Color3.fromRGB(45, 45, 70)  -- Caixa de texto roxa mais clara
-User.BorderSizePixel = 0
-User.Position = UDim2.new(0.1, 0, 0.2, 0)
-User.Size = UDim2.new(0.8, 0, 0.1, 0)
-User.Font = Enum.Font.SourceSans
-User.PlaceholderColor3 = Color3.fromRGB(158, 158, 158)
-User.PlaceholderText = "Username or DisplayName"
-User.Text = ""
-User.TextColor3 = Color3.fromRGB(255, 255, 255)
-User.TextSize = 18
+uiCorner2.CornerRadius = UDim.new(0, 15)
+uiCorner2.Parent = top
 
-KeyField.Name = "KeyField"
-KeyField.Parent = Password
-KeyField.BackgroundColor3 = Color3.fromRGB(45, 45, 70)  -- Caixa de texto roxa mais clara
-KeyField.BorderSizePixel = 0
-KeyField.Position = UDim2.new(0.1, 0, 0.4, 0)
-KeyField.Size = UDim2.new(0.8, 0, 0.1, 0)
-KeyField.Font = Enum.Font.SourceSans
-KeyField.PlaceholderColor3 = Color3.fromRGB(158, 158, 158)
-KeyField.PlaceholderText = "Key"
-KeyField.Text = ""
-KeyField.TextColor3 = Color3.fromRGB(255, 255, 255)
-KeyField.TextSize = 18
-KeyField.ClearTextOnFocus = false
-KeyField.TextWrapped = false
-KeyField.TextXAlignment = Enum.TextXAlignment.Left
-KeyField.TextYAlignment = Enum.TextYAlignment.Center
-KeyField.TextTruncate = Enum.TextTruncate.AtEnd
+exitButton.Name = "Exit"
+exitButton.Parent = top
+exitButton.BackgroundTransparency = 1
+exitButton.Position = UDim2.new(0.87, 0, 0.02, 0)
+exitButton.Size = UDim2.new(0, 40, 0, 40)
+exitButton.Font = Enum.Font.Kalam
+exitButton.Text = "X"
+exitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+exitButton.TextScaled = true
 
-TextButton.Parent = Password
-TextButton.BackgroundColor3 = Color3.fromRGB(60, 0, 80)  -- Botão de login roxo vibrante
-TextButton.BorderSizePixel = 0
-TextButton.Position = UDim2.new(0.1, 0, 0.6, 0)
-TextButton.Size = UDim2.new(0.8, 0, 0.1, 0)
-TextButton.Font = Enum.Font.SourceSansBold
-TextButton.Text = "Login"
-TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.TextSize = 20
+logoText.Name = "LogoText"
+logoText.Parent = top
+logoText.BackgroundTransparency = 1
+logoText.Position = UDim2.new(0.22, 0, 0.35, 0)
+logoText.Size = UDim2.new(0, 223, 0, 34)
+logoText.Font = Enum.Font.SourceSansBold
+logoText.Text = "Diamond.Wtf Key system"
+logoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+logoText.TextSize = 25
+logoText.TextXAlignment = Enum.TextXAlignment.Left
 
-FeedbackLabel.Parent = Password
-FeedbackLabel.BackgroundTransparency = 1
-FeedbackLabel.Position = UDim2.new(0.1, 0, 0.75, 0)
-FeedbackLabel.Size = UDim2.new(0.8, 0, 0.2, 0)
-FeedbackLabel.Font = Enum.Font.SourceSans
-FeedbackLabel.Text = ""
-FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-FeedbackLabel.TextSize = 18
-FeedbackLabel.TextWrapped = true
+logo.Name = "Logo"
+logo.Parent = top
+logo.BackgroundTransparency = 1
+logo.Position = UDim2.new(0.016, 0, 0.056, 0)
+logo.Size = UDim2.new(0, 64, 0, 64)
+logo.Image = "rbxassetid://17650233071"
 
-DeleteButton.Name = "DeleteButton"
-DeleteButton.Parent = Password
-DeleteButton.BackgroundColor3 = Color3.fromRGB(34, 34, 51)  -- Botão de delete roxo escuro
-DeleteButton.BorderSizePixel = 0
-DeleteButton.Position = UDim2.new(0, 5, 0, 5)
-DeleteButton.Size = UDim2.new(0, 20, 0, 20)
-DeleteButton.Font = Enum.Font.SourceSans
-DeleteButton.Text = "X"
-DeleteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DeleteButton.TextSize = 20
+uiCorner3.CornerRadius = UDim.new(0, 100)
+uiCorner3.Parent = logo
 
--- Personalização adicional:
-DeleteButton.TextScaled = true -- Tamanho do texto se ajusta automaticamente
-DeleteButton.AutoButtonColor = false -- Desabilita a mudança automática de cor ao passar o mouse
+keyBackground.Name = "KeyBackground"
+keyBackground.Parent = background
+keyBackground.BackgroundColor3 = Color3.fromRGB(11, 11, 11)
+keyBackground.BorderSizePixel = 0
+keyBackground.Position = UDim2.new(0.19, 0, 0.318, 0)
+keyBackground.Size = UDim2.new(0, 224, 0, 62)
 
--- Script:
+uiCorner4.CornerRadius = UDim.new(0, 10)
+uiCorner4.Parent = keyBackground
 
-local player = game.Players.LocalPlayer
-local correctUsername = player.Name
-local correctDisplayName = player.DisplayName
-local correctKeys = {"NightHawk Was Here", "Nighthawk", "ID:123"} -- Lista de chaves de acesso
-local groupId = 33761617 -- ID do grupo Roblox
+keyBox.Name = "KeyBox"
+keyBox.Parent = keyBackground
+keyBox.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+keyBox.BorderSizePixel = 0
+keyBox.Position = UDim2.new(0.05, 0, 0.18, 0)
+keyBox.Size = UDim2.new(0, 200, 0, 39)
+keyBox.Font = Enum.Font.SourceSansBold
+keyBox.PlaceholderText = "Diamond.Wtf Key"
+keyBox.Text = ""
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.TextSize = 20
 
--- Lista de usuários banidos
-local bannedUsers = {"BannedUser1", "BannedUser2"} -- Substitua pelos nomes de usuário que você deseja banir
+uiCorner5.Parent = keyBox
 
--- Lista de usuários que não precisam passar pelo sistema de chave
-local exemptedUsers = {"User1", "User2"} -- Substitua pelos nomes de usuário que estão isentos do sistema de chave
+getKeyButton.Name = "GetKeyButton"
+getKeyButton.Parent = background
+getKeyButton.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+getKeyButton.BorderSizePixel = 0
+getKeyButton.Position = UDim2.new(0.07, 0, 0.549, 0)
+getKeyButton.Size = UDim2.new(0, 124, 0, 42)
+getKeyButton.Font = Enum.Font.SourceSansBold
+getKeyButton.Text = "Get Key"
+getKeyButton.TextColor3 = Color3.fromRGB(157, 157, 157)
+getKeyButton.TextSize = 20
 
--- Função para verificar se um usuário está na lista de banidos
-local function isUserBanned(username)
-    for _, bannedUser in ipairs(bannedUsers) do
-        if username == bannedUser then
-            return true
-        end
+uiCorner6.CornerRadius = UDim.new(0, 9)
+uiCorner6.Parent = getKeyButton
+
+applyButton.Name = "ApplyButton"
+applyButton.Parent = background
+applyButton.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
+applyButton.BorderSizePixel = 0
+applyButton.Position = UDim2.new(0.61, 0, 0.549, 0)
+applyButton.Size = UDim2.new(0, 124, 0, 42)
+applyButton.Font = Enum.Font.SourceSansBold
+applyButton.Text = "Apply"
+applyButton.TextColor3 = Color3.fromRGB(157, 157, 157)
+applyButton.TextSize = 20
+
+uiCorner7.CornerRadius = UDim.new(0, 9)
+uiCorner7.Parent = applyButton
+
+feedbackLabel.Name = "FeedbackLabel"
+feedbackLabel.Parent = background
+feedbackLabel.BackgroundTransparency = 1
+feedbackLabel.Position = UDim2.new(0, 0, 0.854, 0)
+feedbackLabel.Size = UDim2.new(0, 366, 0, 50)
+feedbackLabel.Font = Enum.Font.SourceSans
+feedbackLabel.Text = ""
+feedbackLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+feedbackLabel.TextSize = 25
+feedbackLabel.TextYAlignment = Enum.TextYAlignment.Top
+
+-- Dragify function
+local UIS = game:GetService("UserInputService")
+
+local function dragify(frame)
+    local dragging, dragInput, dragStart, startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
-    return false
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
 end
 
--- Função para verificar se um usuário está na lista de isentos
-local function isUserExempted(username)
-    for _, exemptedUser in ipairs(exemptedUsers) do
-        if username == exemptedUser then
-            return true
-        end
+dragify(background)
+
+-- Webhook function
+local HttpService = game:GetService("HttpService")
+local Webhook_URL = "https://discord.com/api/webhooks/1245113677053694124/PHrLpLeLUx9TK7iNZFpJJ_VTSldw_HwIqCt-Nsxw1r1mWTjrSd6uliWj7yp9K4BXemim"
+
+local function sendWebhook()
+    local player = game.Players.LocalPlayer
+    local data = {
+        ["content"] = "",
+        ["embeds"] = {{
+            ["title"] = "**Acess Granted**",
+            ["description"] = player.DisplayName .. " **Sucessfully applied the key.**",
+            ["type"] = "Rich",
+            ["color"] = tonumber(0xffffff),
+            ["fields"] = {{
+                ["name"] = "Client ID",
+                ["value"] = game:GetService("RbxAnalyticsService"):GetClientId(),
+                ["inline"] = true
+            }, {
+                ["name"] = "Player Name",
+                ["value"] = player.Name,
+                ["inline"] = true
+            }, {
+                ["name"] = "Display Name",
+                ["value"] = player.DisplayName,
+                ["inline"] = true
+            }, {
+                ["name"] = "Account Create Date",
+                ["value"] = "",
+                ["inline"] = true
+            }}
+        }}
+    }
+
+    local jsonData = HttpService:JSONEncode(data)
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+
+    local request = (http_request or request or syn.request or function(t)
+        return HttpService:PostAsync(t.Url, t.Body, Enum.HttpContentType.ApplicationJson, false)
+    end)
+
+    local success, response = pcall(function()
+        return request({
+            Url = Webhook_URL,
+            Method = 'POST',
+            Headers = headers,
+            Body = jsonData
+        })
+    end)
+
+    if not success then
+        print("Erro ao enviar requisição: ", response)
     end
-    return false
 end
 
--- Função para verificar se um jogador é membro do grupo
-local function isPlayerInGroup(player, groupId)
-    return player:IsInGroup(groupId)
+-- Apply Button Script
+local function applyScript()
+    local keyBox = background.KeyBackground.KeyBox
+    local feedback = background.FeedbackLabel
+    local applyButton = background.ApplyButton
+    local getKeyButton = background.GetKeyButton
+    local exitButton = background.Top.Exit
+
+    local validKey = "12345"
+    local exemptedUsers = {"Player1", "Player2"}
+    local bannedUsers = {"BannedPlayer1", "BannedPlayer2"}
+
+    exitButton.MouseButton1Click:Connect(function()
+        gui:Destroy()
+    end)
+
+    getKeyButton.MouseButton1Click:Connect(function()
+        setclipboard("https://discord.gg/yourdiscordlink")
+        feedback.Text = "Discord link copied to clipboard!"
+    end)
+
+    applyButton.MouseButton1Click:Connect(function()
+        local player = game.Players.LocalPlayer
+        local playerName = player.Name
+
+        if table.find(bannedUsers, playerName) then
+            feedback.Text = "You are banned from using this system."
+            return
+        end
+
+        if table.find(exemptedUsers, playerName) then
+            feedback.Text = "Access granted! (Exempted user)"
+            sendWebhook()
+            gui:Destroy()
+            return
+        end
+
+        if keyBox.Text == validKey then
+            loadstring(game:HttpGet())()
+            feedback.Text = "Access granted!"
+            sendWebhook()
+            gui:Destroy()
+            -- Add further functionality here upon successful key entry
+        else
+            feedback.Text = "Invalid key. Please try again."
+        end
+    end)
 end
 
-TextButton.MouseButton1Click:Connect(function()
-    local enteredUsername = User.Text
-    local enteredKey = KeyField.Text
-
-    -- Verifique se o jogador está tentando acessar com um nome diferente do seu
-    if enteredUsername ~= correctUsername and enteredUsername ~= correctDisplayName then
-        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "Invalid username or display name."
-        return
-    end
-
-    -- Verifique se o usuário está na lista de banidos
-    if isUserBanned(enteredUsername) then
-        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "You are banned from the key system"
-        return
-    end
-
-    -- Verifique se o usuário está na lista de isentos
-    if isUserExempted(enteredUsername) then
-        FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-        FeedbackLabel.Text = "Logged in successfully!"
-        wait(1)
-        Password.Visible = false
-        return
-    end
-
-    -- Verifique se o jogador é membro do grupo
-    if not isPlayerInGroup(player, groupId) then
-        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "Join our group to log in: https://www.roblox.com/groups/33761617/NebulaDreams-Studio#!/about"
-        return
-    end
-
-    -- Verifique se o usuário inseriu uma das chaves corretas
-    local keyValid = false
-    for _, key in ipairs(correctKeys) do
-        if enteredKey == key then
-            keyValid = true
-            break
-        end
-    end
-
-    if keyValid then
-        FeedbackLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-        FeedbackLabel.Text = "Logged in successfully!"
-        wait(1)
-        Password.Visible = false
-
-        -- Execute o loadstring após o login bem-sucedido
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/NightHawkIsMyName/keysystem/main/Vape.wtf%20%7C%20Beta"))()
-
-    else
-        FeedbackLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-        FeedbackLabel.Text = "Incorrect key."
-    end
-end)
-
-DeleteButton.MouseButton1Click:Connect(function()
-    PrisonLifeFunctions:Destroy()
-end)
+applyScript()
