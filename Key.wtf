@@ -278,7 +278,6 @@ local function applyScript()
         end
 
         if keyBox.Text == validKey then
-            loadstring(game:HttpGet())()
             feedback.Text = "Access granted!"
             sendWebhook()
             gui:Destroy()
