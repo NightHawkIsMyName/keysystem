@@ -1,0 +1,473 @@
+--[ Initial Display ]
+print([[
+ _                     _ _                   
+ | |                   | (_)                  
+ | |     ___   __ _  __| |_ _ __   __ _       
+ | |    / _ \ / _` |/ _` | | '_ \ / _` |      
+ | |___| (_) | (_| | (_| | | | | | (_| |_ _ _ 
+ |______\___/ \__,_|\__,_|_|_| |_|\__, (_|_|_)
+                                   __/ |      
+                                  |___/       
+]])
+
+wait(0.5) -- Aguarde 0.5 segundos
+
+--[ Logo Display ]
+print([[
+ _    _                _           
+| |  | |              | |          
+| |__| | ___  __ _  __| | ___ _ __ 
+|  __  |/ _ \/ _` |/ _` |/ _ \ '__|
+| |  | |  __/ (_| | (_| |  __/ |   
+|_|  |_|\___|\__,_|\__,_|\___|_|   
+                                   
+]])
+
+--[ Function to get the game name ]
+local function getGameName()
+    local success, result = pcall(function()
+        return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+    end)
+    return success and result or "Unknown Game"
+end
+
+--[ Set Clipboard ]
+if setclipboard then
+    setclipboard("[Discord: .relaxxx.]")
+end
+
+--[ Load Kavo-UI Library ]
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+--[ Create window with game name and creator ]
+local Window = Library.CreateLib("Vape.wtf | " .. getGameName() .. " | ChatGPT-4o & Legacy", "GrapeTheme")
+
+--[ Main Tabs ]
+local MainTab = Window:NewTab("Main")
+local TeleportTab = Window:NewTab("Teleport")
+local PlayerTab = Window:NewTab("Player")
+local ExploitV1Tab = Window:NewTab("Exploit V1")
+local ExploitV2Tab = Window:NewTab("Exploit V2")
+local OthersTab = Window:NewTab("Others")
+local TargetTab = Window:NewTab("Target")
+local SettingsTab = Window:NewTab("Settings")
+local WeaponsItemsTab = Window:NewTab("Weapons / Items")
+local TeamsTab = Window:NewTab("Teams")
+
+--[ Main Section ]
+local MainSection = MainTab:NewSection("Main Options")
+
+--[ Kill Aura Functionality ]
+local killAuraEnabled = false
+local killAuraRadius = 10
+
+local function toggleKillAura()
+    local mainRemotes = game.ReplicatedStorage
+    local meleeRemote = mainRemotes['meleeEvent']
+
+    while killAuraEnabled do
+        wait(0.1)
+        local players = game.Players:GetPlayers()
+        for _, player in pairs(players) do
+            if player ~= game.Players.LocalPlayer then
+                local character = player.Character
+                if character and character:FindFirstChild("HumanoidRootPart") then
+                    local distance = (character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                    if distance <= killAuraRadius then
+                        local humanoid = character:FindFirstChildOfClass("Humanoid")
+                        if humanoid then
+                            for i = 1, 100 do
+                                meleeRemote:FireServer(player)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+--[ Add Kill Aura Button ]
+MainSection:NewToggle("Kill Aura", "Toggle Kill Aura", function(state)
+    killAuraEnabled = state
+    if killAuraEnabled then
+        spawn(toggleKillAura)
+    end
+end)
+
+--[ Super Punch Functionality ]
+local superPunchEnabled = false
+
+local function toggleSuperPunch()
+    local mainRemotes = game.ReplicatedStorage
+    local meleeRemote = mainRemotes['meleeEvent']
+    local mouse = game.Players.LocalPlayer:GetMouse()
+
+    local punching = false
+    local cooldown = false
+
+    function punch()
+        cooldown = true
+        local part = Instance.new("Part", game.Players.LocalPlayer.Character)
+        part.Transparency = 1
+        part.Size = Vector3.new(5, 2, 3)
+        part.CanCollide = false
+        local w1 = Instance.new("Weld", part)
+        w1.Part0 = game.Players.LocalPlayer.Character.Torso
+        w1.Part1 = part
+        w1.C1 = CFrame.new(0, 0, 2)
+        part.Touched:connect(function(hit)
+            if game.Players:FindFirstChild(hit.Parent.Name) then
+                local plr = game.Players:FindFirstChild(hit.Parent.Name)
+                if plr.Name ~= game.Players.LocalPlayer.Name then
+                    part:Destroy()
+                    for i = 1, 100 do
+                        meleeRemote:FireServer(plr)
+                    end
+                end
+            end
+        end)
+        wait(1)
+        cooldown = false
+        part:Destroy()
+    end
+
+    mouse.KeyDown:connect(function(key)
+        if not cooldown then
+            if key:lower() == "f" then
+                punch()
+            end
+        end
+    end)
+end
+
+--[ Add Super Punch Button ]
+MainSection:NewToggle("Super Punch", "Toggle Super Punch", function(state)
+    superPunchEnabled = state
+    if superPunchEnabled then
+        toggleSuperPunch()
+    end
+end)
+
+--[ Kill All Functionality ]
+local killAllEnabled = false
+
+local function toggleKillAll()
+    local mainRemotes = game.ReplicatedStorage
+    local meleeRemote = mainRemotes['meleeEvent']
+    local player = game.Players.LocalPlayer
+    local humanoidRootPart = player.Character.HumanoidRootPart
+
+    while killAllEnabled do
+        for _, targetPlayer in pairs(game.Players:GetPlayers()) do
+            if not killAllEnabled then return end
+            if targetPlayer ~= player then
+                local character = targetPlayer.Character
+                if character and character:FindFirstChild("HumanoidRootPart") and character:FindFirstChildOfClass("Humanoid") then
+                    repeat
+                        humanoidRootPart.CFrame = character.HumanoidRootPart.CFrame
+                        wait(0.1)
+                        for i = 1, 100 do
+                            meleeRemote:FireServer(targetPlayer)
+                        end
+                        wait(0.1)
+                    until not character:FindFirstChildOfClass("Humanoid") or character:FindFirstChildOfClass("Humanoid").Health <= 0
+                end
+            end
+        end
+        wait(0.1)
+    end
+end
+
+--[ Add Kill All Toggle ]
+MainSection:NewToggle("Kill All", "Toggle Kill All", function(state)
+    killAllEnabled = state
+    if killAllEnabled then
+        spawn(toggleKillAll)
+    end
+end)
+
+--[ Target Kill Functionality ]--
+local targetPlayerName = ""
+
+local function killTargetPlayer(targetName)
+    local mainRemotes = game.ReplicatedStorage
+    local meleeRemote = mainRemotes['meleeEvent']
+    local player = game.Players.LocalPlayer
+    local humanoidRootPart = player.Character.HumanoidRootPart
+
+    for _, targetPlayer in pairs(game.Players:GetPlayers()) do
+        if targetPlayer.Name == targetName then
+            local character = targetPlayer.Character
+            if character and character:FindFirstChild("HumanoidRootPart") and character:FindFirstChildOfClass("Humanoid") then
+                repeat
+                    humanoidRootPart.CFrame = character.HumanoidRootPart.CFrame
+                    wait(0.1)
+                    for i = 1, 100 do
+                        meleeRemote:FireServer(targetPlayer)
+                    end
+                    wait(0.1)
+                until not character:FindFirstChildOfClass("Humanoid") or character:FindFirstChildOfClass("Humanoid").Health <= 0
+            end
+        end
+    end
+end
+
+--[ Target Section ]
+local TargetSection = TargetTab:NewSection("Target Options")
+TargetSection:NewTextBox("Target Player Name", "Enter the target player's name", function(value)
+    targetPlayerName = value
+end)
+TargetSection:NewButton("Kill Target", "Kill the specified target", function()
+    if targetPlayerName ~= "" then
+        killTargetPlayer(targetPlayerName)
+    end
+end)
+
+--[ ESP Functionality ]
+local ESPEnabled = false
+
+local function createESP(player)
+    local espBox = Instance.new("BoxHandleAdornment")
+    espBox.Name = "ESP"
+    espBox.Adornee = player.Character:WaitForChild("HumanoidRootPart")
+    espBox.Size = player.Character.HumanoidRootPart.Size
+    espBox.Color3 = Color3.new(1, 0, 0)
+    espBox.Transparency = 0.8
+    espBox.AlwaysOnTop = true
+    espBox.ZIndex = 5
+    espBox.Parent = player.Character.HumanoidRootPart
+end
+
+local function toggleESP()
+    while ESPEnabled do
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer and not player.Character.HumanoidRootPart:FindFirstChild("ESP") then
+                createESP(player)
+            end
+        end
+        wait(0.1)
+    end
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local espBox = player.Character.HumanoidRootPart:FindFirstChild("ESP")
+            if espBox then
+                espBox:Destroy()
+            end
+        end
+    end
+end
+
+local ExploitV1Section = ExploitV1Tab:NewSection("Exploit V1 Options")
+ExploitV1Section:NewToggle("ESP", "Toggle ESP", function(state)
+    ESPEnabled = state
+    if ESPEnabled then
+        spawn(toggleESP)
+    end
+end)
+
+--[ Hitbox Expander Functionality ]
+local hitboxSize = 10
+local hitboxExpanderEnabled = false
+
+local function expandHitboxes()
+    while hitboxExpanderEnabled do
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                pcall(function()
+                    player.Character.HumanoidRootPart.Size = Vector3.new(hitboxSize, hitboxSize, hitboxSize)
+                    player.Character.HumanoidRootPart.Transparency = 0.7
+                    player.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+                    player.Character.HumanoidRootPart.Material = "Neon"
+                    player.Character.HumanoidRootPart.CanCollide = false
+                end)
+                if player.Character.Humanoid.Health == 0 then 
+                    player.Character.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                end
+            end
+        end
+        wait(0.1)
+    end
+end
+
+local ExploitV2Section = ExploitV2Tab:NewSection("Exploit V2 Options")
+ExploitV2Section:NewSlider("Hitbox Size", "Adjust the size of hitboxes", 1, 50, hitboxSize, function(value)
+    hitboxSize = value
+end)
+ExploitV2Section:NewToggle("Hitbox Expander", "Expand hitboxes of players", function(state)
+    hitboxExpanderEnabled = state
+    if hitboxExpanderEnabled then
+        spawn(expandHitboxes)
+    end
+end)
+
+--[ Auto Reload Functionality ]
+local autoReloadEnabled = false
+
+local function autoReload()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    while autoReloadEnabled do
+        local weapon = character and character:FindFirstChildOfClass("Tool")
+        if weapon and weapon:FindFirstChild("Ammo") and weapon.Ammo.Value == 0 then
+            game.ReplicatedStorage.Reload:FireServer(weapon)
+        end
+        wait(0.1)
+    end
+end
+
+MainSection:NewToggle("Auto Reload", "Automatically reloads your weapon", function(state)
+    autoReloadEnabled = state
+    if autoReloadEnabled then
+        spawn(autoReload)
+    end
+end)
+
+--[ Aimbot Functionality ]
+local aimbotEnabled = false
+local aimbotKey = Enum.KeyCode.P
+
+local function aimbot()
+    local player = game.Players.LocalPlayer
+    local mouse = player:GetMouse()
+    local camera = workspace.CurrentCamera
+    local runService = game:GetService("RunService")
+
+    while aimbotEnabled do
+        local closestPlayer
+        local shortestDistance = math.huge
+
+        for _, targetPlayer in pairs(game.Players:GetPlayers()) do
+            if targetPlayer ~= player and targetPlayer.TeamColor ~= player.TeamColor and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local distance = (targetPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).magnitude
+                if distance < shortestDistance then
+                    shortestDistance = distance
+                    closestPlayer = targetPlayer
+                end
+            end
+        end
+
+        if closestPlayer then
+            camera.CFrame = CFrame.new(camera.CFrame.Position, closestPlayer.Character.HumanoidRootPart.Position)
+        end
+
+        runService.RenderStepped:Wait()
+    end
+end
+
+local AimbotSection = PlayerTab:NewSection("Aimbot")
+AimbotSection:NewKeybind("Enable Aimbot", "Toggles the aimbot on and off", aimbotKey, function()
+    aimbotEnabled = not aimbotEnabled
+    if aimbotEnabled then
+        spawn(aimbot)
+    end
+end)
+
+--[ trigger bot ]--
+local triggerBotEnabled = false
+local triggerBotKey = Enum.KeyCode.T
+local detectionRange = 100  -- Define o alcance do Trigger Bot
+
+-- Função para criar e desenhar o círculo ao redor do mouse
+local function createCircle(radius)
+    local circle = Drawing.new("Circle")
+    circle.Thickness = 2
+    circle.Transparency = 1
+    circle.Color = Color3.fromRGB(255, 255, 255)  -- Branco inicialmente
+    circle.Filled = false
+    circle.Radius = radius
+    circle.Visible = false
+    return circle
+end
+
+-- Função para atualizar a posição do círculo conforme o movimento do mouse
+local function updateCirclePosition(circle, mouse)
+    circle.Position = Vector2.new(mouse.X, mouse.Y + 36)  -- Ajuste Y conforme necessário para alinhar ao cursor
+end
+
+-- Função para mostrar o círculo
+local function showCircle(circle)
+    circle.Visible = true
+end
+
+-- Função para esconder o círculo
+local function hideCircle(circle)
+    circle.Visible = false
+end
+
+-- Função para alternar a visibilidade do círculo
+local function toggleCircleVisibility(circle, visible)
+    circle.Visible = visible
+end
+
+-- Função para clicar automaticamente no alvo
+local function simulateMouseClick(userInputService, mouse)
+    userInputService:InputBegan({
+        UserInputType = Enum.UserInputType.MouseButton1,
+        Position = Vector2.new(mouse.X, mouse.Y)
+    })
+end
+
+-- Inicializar círculo de detecção
+local circle = createCircle(detectionRange)
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+local camera = game.Workspace.CurrentCamera
+local userInputService = game:GetService("UserInputService")
+
+-- Atualizar a posição do círculo conforme o movimento do mouse
+mouse.Move:Connect(function()
+    updateCirclePosition(circle, mouse)
+end)
+
+-- Função principal do Trigger Bot
+local function triggerBot()
+    showCircle(circle)
+
+    while triggerBotEnabled do
+        local target = mouse.Target
+
+        if target and target.Parent and target.Parent:FindFirstChildOfClass("Humanoid") then
+            local humanoid = target.Parent:FindFirstChildOfClass("Humanoid")
+            if humanoid.Health > 0 and target.Parent ~= player.Character then
+                if target.Parent:FindFirstChild("Team") and target.Parent.Team.Value ~= player.Team.Value then
+                    simulateMouseClick(userInputService, mouse)  -- Clicar no alvo detectado
+                end
+            end
+        end
+
+        wait(0.01)  -- Reduzir o intervalo de espera para aumentar a reatividade
+    end
+
+    hideCircle(circle)  -- Esconder o círculo quando o Trigger Bot estiver desativado
+end
+
+-- Configuração da interface do usuário para ativar/desativar o Trigger Bot
+local TriggerBotSection = PlayerTab:NewSection("Trigger Bot")
+TriggerBotSection:NewKeybind("Enable Trigger Bot", "Toggles the trigger bot on and off", triggerBotKey, function()
+    triggerBotEnabled = not triggerBotEnabled
+    toggleCircleVisibility(circle, triggerBotEnabled)
+    if triggerBotEnabled then
+        spawn(triggerBot)
+    end
+end)
+
+--[ Teleport Weapons Functionality ]
+local weaponList = {"AK-47", "M4A1", "Shotgun"}
+
+local function teleportWeapon(weaponName)
+    local player = game.Players.LocalPlayer
+    local weapon = game.Workspace:FindFirstChild(weaponName)
+    if weapon then
+        player.Character.HumanoidRootPart.CFrame = weapon.CFrame
+        fireclickdetector(weapon:FindFirstChildWhichIsA("ClickDetector"))
+    end
+end
+
+local WeaponsItemsSection = WeaponsItemsTab:NewSection("Weapons/Items Options")
+WeaponsItemsSection:NewDropdown("Select Weapon", "Select a weapon to teleport to", weaponList, function(selectedWeapon)
+    teleportWeapon(selectedWeapon)
+end)
+
+print("Script Loaded Successfully!")
