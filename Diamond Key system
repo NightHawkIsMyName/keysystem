@@ -3,7 +3,6 @@ local gui = Instance.new("ScreenGui")
 local background = Instance.new("Frame")
 local uiCorner = Instance.new("UICorner")
 local top = Instance.new("Frame")
-local feet = Instance.new("Frame")
 local uiCorner2 = Instance.new("UICorner")
 local exitButton = Instance.new("TextButton")
 local logoText = Instance.new("TextLabel")
@@ -40,13 +39,6 @@ top.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
 top.BorderSizePixel = 0
 top.Size = UDim2.new(0, 366, 0, 54)
 
-feet.Name = "Feet"
-feet.Parent = top
-feet.BackgroundColor3 = Color3.fromRGB(14, 14, 14)
-feet.BorderSizePixel = 0
-feet.Position = UDim2.new(0, 0, 0.765, 0)
-feet.Size = UDim2.new(0, 366, 0, 32)
-
 uiCorner2.CornerRadius = UDim.new(0, 15)
 uiCorner2.Parent = top
 
@@ -66,7 +58,7 @@ logoText.BackgroundTransparency = 1
 logoText.Position = UDim2.new(0.22, 0, 0.35, 0)
 logoText.Size = UDim2.new(0, 223, 0, 34)
 logoText.Font = Enum.Font.SourceSansBold
-logoText.Text = "Diamond.Wtf Key system"
+logoText.Text = "Diamond.Wtf Key System"
 logoText.TextColor3 = Color3.fromRGB(255, 255, 255)
 logoText.TextSize = 25
 logoText.TextXAlignment = Enum.TextXAlignment.Left
@@ -136,27 +128,29 @@ uiCorner7.Parent = applyButton
 feedbackLabel.Name = "FeedbackLabel"
 feedbackLabel.Parent = background
 feedbackLabel.BackgroundTransparency = 1
-feedbackLabel.Position = UDim2.new(0, 0, 0.854, 0)
-feedbackLabel.Size = UDim2.new(0, 366, 0, 50)
+feedbackLabel.Position = UDim2.new(0, 0, 0.7, 0)  -- Adjusted position
+feedbackLabel.Size = UDim2.new(1, 0, 0.15, 0)  -- Adjusted size
 feedbackLabel.Font = Enum.Font.SourceSans
 feedbackLabel.Text = ""
 feedbackLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-feedbackLabel.TextSize = 25
-feedbackLabel.TextYAlignment = Enum.TextYAlignment.Top
+feedbackLabel.TextScaled = true  -- Adjust text to fit
+feedbackLabel.TextWrapped = true -- Wrap text to fit within the label
 
--- Dragify function
+-- Smooth Dragify function
 local UIS = game:GetService("UserInputService")
+local runService = game:GetService("RunService")
 
-local function dragify(frame)
+local function smoothDragify(frame)
     local dragging, dragInput, dragStart, startPos
 
     local function update(input)
         local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        local newPosition = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        frame.Position = newPosition
     end
 
     frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType.Touch then
             dragging = true
             dragStart = input.Position
             startPos = frame.Position
@@ -170,57 +164,59 @@ local function dragify(frame)
     end)
 
     frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType.Touch then
             dragInput = input
         end
     end)
 
     UIS.InputChanged:Connect(function(input)
         if input == dragInput and dragging then
-            update(input)
+            runService.RenderStepped:Connect(function()
+                if dragging then
+                    update(input)
+                end
+            end)
         end
     end)
 end
 
-dragify(background)
+smoothDragify(background)
 
 -- Webhook function
 local HttpService = game:GetService("HttpService")
-local Webhook_URL = "https://discord.com/api/webhooks/1245113677053694124/PHrLpLeLUx9TK7iNZFpJJ_VTSldw_HwIqCt-Nsxw1r1mWTjrSd6uliWj7yp9K4BXemim"
+local webhooks = {
+    HubNotification = "https://discord.com/api/webhooks/1246128976590667816/18es5SSIWECq_tH1EChtOjwzie3Z6mzdiW75N1rIJ_lifPzHe4MGmZzsr74uWkyEaU3C",
+    KeyNotification = "https://discord.com/api/webhooks/1245113677053694124/PHrLpLeLUx9TK7iNZFpJJ_VTSldw_HwIqCt-Nsxw1r1mWTjrSd6uliWj7yp9K4BXemim",
+    PlayerKicked = "https://discord.com/api/webhooks/1246129292023169097/gVyhwby3pb-oJnFtjyLpq1XAWSKLzyepfhAnjC-eMk3la17hNfBxv_URkJ3cIiW5pD1O",
+    PlayerNotifications = "https://discord.com/api/webhooks/1246128896752091257/RHqOyhA-ZHNfnCXO4AhCwpvcQXAZj8ISbi0Jaz2Cnr2DOCuM5QBhkBG81xmgHgjRmDWt",
+    BanNotification = "https://discord.com/api/webhooks/1246136168911732748/t9jtnJ6XyryKmRoZHj-hUf3nQkysF1i7_aO5XMorGDdyp2i8NUoC9JGvgfkjfKhem7yp"
+}
 
-local function sendWebhook()
-    local player = game.Players.LocalPlayer
+local function sendWebhook(webhookType, player, message, hwid)
     local data = {
-        ["content"] = "",
+        ["content"] = "@everyone",
         ["embeds"] = {{
-            ["title"] = "**Acess Granted**",
-            ["description"] = player.DisplayName .. " **Sucessfully applied the key.**",
-            ["type"] = "Rich",
-            ["color"] = tonumber(0xffffff),
+            ["title"] = "Notification",
+            ["description"] = message,
+            ["color"] = 0x9127AC,
             ["fields"] = {{
-                ["name"] = "Client ID",
-                ["value"] = game:GetService("RbxAnalyticsService"):GetClientId(),
-                ["inline"] = true
-            }, {
-                ["name"] = "Player Name",
+                ["name"] = "Player",
                 ["value"] = player.Name,
                 ["inline"] = true
             }, {
-                ["name"] = "Display Name",
-                ["value"] = player.DisplayName,
+                ["name"] = "User ID",
+                ["value"] = player.UserId,
                 ["inline"] = true
             }, {
-                ["name"] = "Account Create Date",
-                ["value"] = "",
+                ["name"] = "HWID",
+                ["value"] = "**" .. hwid .. "**",
                 ["inline"] = true
             }}
         }}
     }
 
     local jsonData = HttpService:JSONEncode(data)
-    local headers = {
-        ["Content-Type"] = "application/json"
-    }
+    local headers = { ["Content-Type"] = "application/json" }
 
     local request = (http_request or request or syn.request or function(t)
         return HttpService:PostAsync(t.Url, t.Body, Enum.HttpContentType.ApplicationJson, false)
@@ -228,7 +224,7 @@ local function sendWebhook()
 
     local success, response = pcall(function()
         return request({
-            Url = Webhook_URL,
+            Url = webhooks[webhookType],
             Method = 'POST',
             Headers = headers,
             Body = jsonData
@@ -236,54 +232,69 @@ local function sendWebhook()
     end)
 
     if not success then
-        print("Erro ao enviar requisição: ", response)
+        print("Error sending request: ", response)
     end
+end
+
+-- Whitelist HWIDs
+local whitelistHWIDs = {
+    "1A2D8B09-1116-11EE-9B2C-18A59CB860A4", 
+    "1B2D8B09-1116-11EE-9B2C-18A59CB860A5", 
+    "1C2D8B09-1116-11EE-9B2C-18A59CB860A6", 
+    "1D2D8B09-1116-11EE-9B2C-18A59CB860A7"
+} -- Add more HWIDs as needed
+
+local function isHWIDWhitelisted(hwid)
+    for _, whitelistedHWID in ipairs(whitelistHWIDs) do
+        if hwid == whitelistedHWID then
+            return true
+        end
+    end
+    return false
+end
+
+-- Function to get HWID (for illustration purposes, use appropriate method in your environment)
+local function getHWID()
+    -- Example code to get HWID. Replace with the correct method.
+    return "1A2D8B09-1116-11EE-9B2C-18A59CB860A4"
 end
 
 -- Apply Button Script
 local function applyScript()
-    local keyBox = background.KeyBackground.KeyBox
-    local feedback = background.FeedbackLabel
-    local applyButton = background.ApplyButton
-    local getKeyButton = background.GetKeyButton
-    local exitButton = background.Top.Exit
-
-    local validKey = "12345"
-    local exemptedUsers = {"Player1", "Player2"}
-    local bannedUsers = {"BannedPlayer1", "BannedPlayer2"}
-
     exitButton.MouseButton1Click:Connect(function()
         gui:Destroy()
     end)
 
     getKeyButton.MouseButton1Click:Connect(function()
         setclipboard("https://discord.gg/yourdiscordlink")
-        feedback.Text = "Discord link copied to clipboard!"
+        feedbackLabel.Text = "🔗 Discord link copied to clipboard!"
     end)
 
     applyButton.MouseButton1Click:Connect(function()
         local player = game.Players.LocalPlayer
         local playerName = player.Name
+        local key = keyBox.Text
 
-        if table.find(bannedUsers, playerName) then
-            feedback.Text = "You are banned from using this system."
+        local validKey = "12345" -- Set the correct password here
+
+        local hwid = getHWID() -- Get the HWID
+
+        if key == "" then
+            feedbackLabel.Text = "❌ Please enter a key!"
             return
         end
 
-        if table.find(exemptedUsers, playerName) then
-            feedback.Text = "Access granted! (Exempted user)"
-            sendWebhook()
-            gui:Destroy()
-            return
-        end
-
-        if keyBox.Text == validKey then
-            feedback.Text = "Access granted!"
-            sendWebhook()
-            gui:Destroy()
-            -- Add further functionality here upon successful key entry
+        if key == validKey then
+            if isHWIDWhitelisted(hwid) then
+                feedbackLabel.Text = "✅ Access granted! Welcome, " .. playerName .. "!"
+                sendWebhook("KeyNotification", player, playerName .. " with HWID " .. hwid .. " successfully applied the key.", hwid)
+                gui:Destroy()
+            else
+                feedbackLabel.Text = "❌ HWID not whitelisted. Access denied."
+                sendWebhook("PlayerKicked", player, playerName .. " tried to apply the key with an unlisted HWID.", hwid)
+            end
         else
-            feedback.Text = "Invalid key. Please try again."
+            feedbackLabel.Text = "❌ Invalid key. Please try again."
         end
     end)
 end
